@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <vector>
 
 class ArbolBinario{
 
@@ -31,6 +32,10 @@ public:
     int altura(Nodo* nodo);
     int nivel(char* valor);
     int nivel(Nodo* nodo, char* valor, int nivelActual);
+    std::vector<char*> nodosHoja();
+    void nodosHoja(Nodo* nodo, std::vector<char*>& hojas);
+    bool esEquilibrado();
+    bool esEquilibrado(Nodo* nodo);
 	void eliminar(char* valor);
     void eliminar(Nodo*& nodo, char* valor);
     Nodo* maximoNodo(Nodo* nodo); 

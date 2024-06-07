@@ -8,9 +8,9 @@
 void menu(int &);
 void cargarArchivo(std::vector<ArbolBinario> &, bool&);
 void imprimirArbol(std::vector<ArbolBinario>);
-void alturaArbol();
-void hojasArbol();
-void equilibrioArbol();
+void alturaArbol(std::vector<ArbolBinario>);
+void hojasArbol(std::vector<ArbolBinario>);
+void equilibrioArbol(std::vector<ArbolBinario>);
 
 int main(int argc, char** argv) {
 	std::vector<ArbolBinario> arboles;
@@ -24,25 +24,35 @@ int main(int argc, char** argv) {
 				cargarArchivo(arboles, archLoad);
 				break;
 			case 2:
-				if (archLoad) {
+				if (archLoad)
 				    imprimirArbol(arboles);
-				} else {
-				    std::cout << "No se ha cargado el archivo!!!" << std::endl;
-				    system("PAUSE");
-				}
+				else
+					std::cout << "No se ha cargado el archivo!!!" << std::endl;
+				
 				break;
 			case 3:
-				alturaArbol();
+				if (archLoad)
+					alturaArbol(arboles);
+				else
+					std::cout << "No se ha cargado el archivo!!!" << std::endl;
 				break;
 			case 4:
-				hojasArbol();
+				if (archLoad)
+					hojasArbol(arboles);
+				else
+					std::cout << "No se ha cargado el archivo!!!" << std::endl;
 				break;
 			case 5:
-				equilibrioArbol();
+				if (archLoad)
+					equilibrioArbol(arboles);
+				else
+					std::cout << "No se ha cargado el archivo!!!" << std::endl;
 				break;
 			default:
 				break;
 		}
+		
+		system("PAUSE");
 	} while(resp != 6);
 	
 	
@@ -56,7 +66,6 @@ bool archivoExiste(const std::string& nombreArchivo) {
     return existe;
 }
 
-// Pendiente boolean para verificar que el archivo est� cargado
 void menu(int &resp){
 	do{
 		system("cls");
@@ -86,7 +95,7 @@ void dividirLineaEnPalabras(const std::string& linea, std::vector<std::string>& 
     }
 }
 
-void cargarArchivo(std::vector<ArbolBinario> &arboles, bool& _archLoad) {
+void cargarArchivo(std::vector<ArbolBinario> &arboles, bool& _archLoad) {//Eliminar vector arboles antes de cargar.
     system("cls");
     std::cout << "------------- PROCESO DE CARGA -------------" << std::endl;
     
@@ -114,7 +123,6 @@ void cargarArchivo(std::vector<ArbolBinario> &arboles, bool& _archLoad) {
                 }
                 archivo.close();
                 std::cout << "El archivo se ha cargado correctamente." << std::endl;
-                system("PAUSE");
                 _archLoad=true;
             }
             break;
@@ -128,6 +136,7 @@ void cargarArchivo(std::vector<ArbolBinario> &arboles, bool& _archLoad) {
                 std::cout << "Ingrese el nombre del archivo: ";
                 std::getline(std::cin, nombreArchivo);
             } else if (opcion == 'n' || opcion == 'N') {
+            	_archLoad=false;
                 return;
             } else {
                 std::cout << "Opcion no valida. Intente de nuevo." << std::endl;
@@ -144,16 +153,49 @@ void imprimirArbol(std::vector<ArbolBinario> arboles){
     	arboles[i].recorridoPostOrden();
 	}
 	std::cout << std::endl;
-	system("PAUSE");
 }
 
-void alturaArbol(){
+void alturaArbol(std::vector<ArbolBinario> arboles){
+	system("cls");
+    std::cout << "------------- ALTURA DE ARBOLES -------------" << std::endl;
+    for(int i = 0; i < arboles.size(); i++){
+    	std::cout << "Altura de Arbol " << (i+1) <<": " << arboles[i].altura() << std::endl;
+    	
+	}
+	std::cout << std::endl;
 }
 
-void hojasArbol(){
+void hojasArbol(std::vector<ArbolBinario> arboles){
+	system("cls");
+    std::cout << "------------- NODOS HOJA DE LOS ARBOLES -------------" << std::endl;
+    for(int i = 0; i < arboles.size(); i++){
+    	std::cout << "Nodos hoja del Arbol " << (i+1) <<": ";
+    	std::vector<char*> nodosHoja = arboles[i].nodosHoja();
+    	for (int j = 0; j < nodosHoja.size(); j++){
+    		if (j < nodosHoja.size()-1){
+    			std::cout << nodosHoja[j] << ", ";
+			} else{
+				std::cout << nodosHoja[j] << ". "; 	
+			}
+    		
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	
 }
 
-void equilibrioArbol(){
+void equilibrioArbol(std::vector<ArbolBinario> arboles){
+	system("cls");
+    std::cout << "------------- EQUILIBRIO DE ARBOLES -------------" << std::endl;
+    for(int i = 0; i < arboles.size(); i++){
+    	std::cout << "Arbol " << (i+1) <<": ";
+    	if (arboles[i].esEquilibrado())
+    		std::cout << "Esta equilibrado" << std::endl;
+    	else
+    		std::cout << "No esta equilibrado" << std::endl;
+	}
+	std::cout << std::endl;
 }
 
 

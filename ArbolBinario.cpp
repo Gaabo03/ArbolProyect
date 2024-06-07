@@ -128,6 +128,51 @@ int ArbolBinario::nivel(char* valor) {
     return nivel(raiz, valor, 1);
 }
 
+void ArbolBinario::nodosHoja(Nodo* nodo, std::vector<char*>& hojas) {
+    if (nodo == NULL) {
+        return;
+    }
+
+    if (nodo->izquierda == NULL && nodo->derecha == NULL) {
+        hojas.push_back(nodo->elemento);
+    } else {
+        nodosHoja(nodo->izquierda, hojas);
+        nodosHoja(nodo->derecha, hojas);
+    }
+}
+
+std::vector<char*> ArbolBinario::nodosHoja() {
+    std::vector<char*> hojas;
+    nodosHoja(raiz, hojas);
+    return hojas;
+}
+
+int valorAbsoluto(int x) {
+    return (x < 0) ? -x : x;
+}
+
+bool ArbolBinario::esEquilibrado(Nodo* nodo) {
+    if (nodo == NULL) {
+        return true;
+    }
+
+    int alturaIzquierda = altura(nodo->izquierda);
+    int alturaDerecha = altura(nodo->derecha);
+
+    if (valorAbsoluto(alturaIzquierda - alturaDerecha) <= 1 &&
+        esEquilibrado(nodo->izquierda) &&
+        esEquilibrado(nodo->derecha)) {
+        return true;
+    }
+
+    return false;
+}
+
+
+bool ArbolBinario::esEquilibrado() {
+    return esEquilibrado(raiz);
+}
+
 
 void ArbolBinario::eliminar(Nodo*& nodo, char* valor) {
     if (nodo == NULL) {
