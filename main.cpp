@@ -30,10 +30,13 @@ int main(int argc, char** argv) {
 			case 4:
 				equilibrioArbol();
 				break;
+			case 5:
+				equilibrioArbol();
+				break;
 			default:
 				break;
 		}
-	} while(resp != 5);
+	} while(resp != 6);
 	
 	
 	return 0;
@@ -51,18 +54,19 @@ void menu(int &resp){
 		system("cls");
 		std::cout << "	------------ PROYECTO DE ARBOL -------------" << std::endl;
 		std::cout << "	1. Cargar archivo" << std::endl;
-		std::cout << "	2. Determinar altura de cada arbol" << std::endl;
-		std::cout << "	3. Determinar nodos hojas de cada arbol" << std::endl;
-		std::cout << "	4. Verificar equilibrio de cada arbol" << std::endl;
-		std::cout << "	5. Salir del programa" << std::endl;
+		std::cout << "	2. Imprimir Arboles" << std::endl;
+		std::cout << "	3. Determinar altura de cada arbol" << std::endl;
+		std::cout << "	4. Determinar nodos hojas de cada arbol" << std::endl;
+		std::cout << "	5. Verificar equilibrio de cada arbol" << std::endl;
+		std::cout << "	6. Salir del programa" << std::endl;
 		std::cout << "	Respuesta: ";
 		std::cin >> resp;
-	} while(resp < 1 || resp > 5);
+	} while(resp < 1 || resp > 6);
 }
 
-void dividirLineaEnPalabras(const std::string& linea, std::vector<std::string>& palabras) {
-    size_t inicio = 0;
-    size_t fin = 0;
+void dividirLineaEnPalabras(const std::string& linea, std::vector<std::string>& palabras){
+    int inicio = 0;
+    int fin = 0;
     while ((fin = linea.find(' ', inicio)) != std::string::npos) {
         if (fin != inicio) {
             palabras.push_back(linea.substr(inicio, fin - inicio));
@@ -83,22 +87,17 @@ void cargarArchivo(std::vector<ArbolBinario> &arboles) {
 
     do {
         if (archivoExiste(nombreArchivo)) {
-            std::cout << "El archivo " << nombreArchivo << " existe." << std::endl;
-            
             std::ifstream archivo(nombreArchivo.c_str());
             if (archivo.is_open()) {
                 std::string linea;
                 while (std::getline(archivo, linea)) {
-                    // Crear un nuevo árbol para cada línea
                     ArbolBinario arbol;
                     
-                    // Dividir la línea en palabras sin usar sstream
                     std::vector<std::string> palabras;
                     dividirLineaEnPalabras(linea, palabras);
-                    
-                    // Insertar cada palabra en el árbol
+
                     for(int i = 0; i < palabras.size(); i++){
-                    	char* palabraChar = new char[palabras[i].length() + 1]; // +1 para el carácter nulo
+                    	char* palabraChar = new char[palabras[i].length() + 1];
 					    std::strcpy(palabraChar, palabras[i].c_str());
 					    arbol.insertar(palabraChar);
 					    delete[] palabraChar;
