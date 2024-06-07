@@ -85,10 +85,6 @@ void ArbolBinario::recorridoPostOrden() {
     std::cout << std::endl;
 }
 
-void ArbolBinario::imprimir() {
-    recorridoInOrden();
-}
-
 int ArbolBinario::altura(Nodo* nodo) {
     if (nodo == NULL) {
         // La altura de un árbol vacío es 0

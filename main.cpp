@@ -7,6 +7,7 @@
 
 void menu(int &);
 void cargarArchivo(std::vector<ArbolBinario> &, bool&);
+void imprimirArbol(std::vector<ArbolBinario>);
 void alturaArbol();
 void hojasArbol();
 void equilibrioArbol();
@@ -24,17 +25,17 @@ int main(int argc, char** argv) {
 				break;
 			case 2:
 				if (archLoad) {
-				    alturaArbol();
+				    imprimirArbol(arboles);
 				} else {
 				    std::cout << "No se ha cargado el archivo!!!" << std::endl;
 				    system("PAUSE");
 				}
 				break;
 			case 3:
-				hojasArbol();
+				alturaArbol();
 				break;
 			case 4:
-				equilibrioArbol();
+				hojasArbol();
 				break;
 			case 5:
 				equilibrioArbol();
@@ -55,6 +56,7 @@ bool archivoExiste(const std::string& nombreArchivo) {
     return existe;
 }
 
+// Pendiente boolean para verificar que el archivo estï¿½ cargado
 void menu(int &resp){
 	do{
 		system("cls");
@@ -107,7 +109,6 @@ void cargarArchivo(std::vector<ArbolBinario> &arboles, bool& _archLoad) {
 					    std::strcpy(palabraChar, palabras[i].c_str());
 					    arbol.insertar(palabraChar);
 					    delete[] palabraChar;
-					    std::cout << "a" << std::endl;
 					}
                     arboles.push_back(arbol);
                 }
@@ -129,10 +130,21 @@ void cargarArchivo(std::vector<ArbolBinario> &arboles, bool& _archLoad) {
             } else if (opcion == 'n' || opcion == 'N') {
                 return;
             } else {
-                std::cout << "Opción no válida. Intente de nuevo." << std::endl;
+                std::cout << "Opcion no valida. Intente de nuevo." << std::endl;
             }
         }
     } while (true);
+}
+
+void imprimirArbol(std::vector<ArbolBinario> arboles){
+	system("cls");
+    std::cout << "------------- IMPRESION DE ARBOLES -------------" << std::endl;
+    for(int i = 0; i < arboles.size(); i++){
+    	std::cout << "Arbol " << (i+1) <<": ";
+    	arboles[i].recorridoPostOrden();
+	}
+	std::cout << std::endl;
+	system("PAUSE");
 }
 
 void alturaArbol(){
