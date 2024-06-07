@@ -6,7 +6,7 @@
 #include "ArbolBinario.h"
 
 void menu(int &);
-void cargarArchivo(std::vector<ArbolBinario> &);
+void cargarArchivo(std::vector<ArbolBinario> &, bool&);
 void alturaArbol();
 void hojasArbol();
 void equilibrioArbol();
@@ -14,15 +14,21 @@ void equilibrioArbol();
 int main(int argc, char** argv) {
 	std::vector<ArbolBinario> arboles;
 	int resp;
+	bool archLoad=false;
 	
 	do{
 		menu(resp);
 		switch(resp){
 			case 1:
-				cargarArchivo(arboles);
+				cargarArchivo(arboles, archLoad);
 				break;
 			case 2:
-				alturaArbol();
+				if (archLoad) {
+				    alturaArbol();
+				} else {
+				    std::cout << "No se ha cargado el archivo!!!" << std::endl;
+				    system("PAUSE");
+				}
 				break;
 			case 3:
 				hojasArbol();
@@ -78,7 +84,7 @@ void dividirLineaEnPalabras(const std::string& linea, std::vector<std::string>& 
     }
 }
 
-void cargarArchivo(std::vector<ArbolBinario> &arboles) {
+void cargarArchivo(std::vector<ArbolBinario> &arboles, bool& _archLoad) {
     system("cls");
     std::cout << "------------- PROCESO DE CARGA -------------" << std::endl;
     
@@ -108,6 +114,7 @@ void cargarArchivo(std::vector<ArbolBinario> &arboles) {
                 archivo.close();
                 std::cout << "El archivo se ha cargado correctamente." << std::endl;
                 system("PAUSE");
+                _archLoad=true;
             }
             break;
         } else {
