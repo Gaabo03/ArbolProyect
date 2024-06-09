@@ -17,8 +17,8 @@ public:
 	Nodo *raiz;
 	
 	ArbolBinario();
-    void insertar(char* valor);
-    void insertar(Nodo*& nodo, char* valor);
+    void insertar(const char* valor);
+    void insertar(Nodo*& nodo, const char* valor);
     bool buscar(char* valor);
     bool buscar(Nodo* nodo, char* valor);
     void recorridoPreOrden();

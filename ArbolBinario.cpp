@@ -1,10 +1,13 @@
 #include "ArbolBinario.h"
 
+// Constructor de la clase ArbolBinario. Inicializa la raiz del arbol a NULL.
 ArbolBinario::ArbolBinario(){
     raiz = NULL;
 }
 
-void ArbolBinario::insertar(Nodo*& nodo, char* valor) {
+// Función para insertar un nuevo nodo en el arbol. Si el árbol esta vacío, crea un nuevo nodo y lo asigna a la raiz. 
+// Si el arbol no está vacío, compara el valor con el nodo actual y decide si insertarlo a la izquierda o a la derecha.
+void ArbolBinario::insertar(Nodo*& nodo,const char* valor) {
     if (nodo == NULL) {
         nodo = new Nodo;
         nodo->elemento = new char[strlen(valor) + 1];
@@ -18,20 +21,22 @@ void ArbolBinario::insertar(Nodo*& nodo, char* valor) {
     }
 }
 
-void ArbolBinario::insertar(char* valor) {
+void ArbolBinario::insertar(const char* valor) {
     insertar(raiz, valor);
 }
 
+// Funcion para buscar un valor en el arbol. Si el arbol esta vacio, devuelve false. 
+// Si no, compara el valor con el nodo actual y decide si buscar a la izquierda o a la derecha.
 bool ArbolBinario::buscar(Nodo* nodo, char* valor) {
-    if (nodo == NULL) { // Fin del arbol
+    if (nodo == NULL) { 
         return false;
     }
 
-    if (strcmp(valor, nodo->elemento) == 0) { // Se encuentra
+    if (strcmp(valor, nodo->elemento) == 0) {
         return true;
-    } else if (strcmp(valor, nodo->elemento) < 0) { // El valor es menor que el del nodo
+    } else if (strcmp(valor, nodo->elemento) < 0) { 
         return buscar(nodo->izquierda, valor);
-    } else { // El valor es mayor que el del nodo
+    } else {
         return buscar(nodo->derecha, valor);
     }
 }
@@ -40,6 +45,7 @@ bool ArbolBinario::buscar(char* valor) {
     return buscar(raiz, valor);
 }
 
+// Funciones para recorrer el arbol en preorden, inorden y postorden.
 void ArbolBinario::recorridoPreOrden(Nodo* nodo) {
     if (nodo == NULL) {
         return;
@@ -85,16 +91,14 @@ void ArbolBinario::recorridoPostOrden() {
     std::cout << std::endl;
 }
 
+// Funcion para calcular la altura del arbol.
 int ArbolBinario::altura(Nodo* nodo) {
     if (nodo == NULL) {
-        // La altura de un árbol vacío es 0
         return 0;
     } else {
-        // Calcula la altura de cada subárbol
         int alturaIzquierda = altura(nodo->izquierda);
         int alturaDerecha = altura(nodo->derecha);
 
-        // La altura del árbol es el máximo de las alturas de los subárboles, más 1
         return std::max(alturaIzquierda, alturaDerecha) + 1;
     }
 }
@@ -103,23 +107,20 @@ int ArbolBinario::altura() {
     return altura(raiz);
 }
 
+// Funcion para calcular el nivel de un nodo en el arbol.
 int ArbolBinario::nivel(Nodo* nodo, char* valor, int nivelActual) {
     if (nodo == NULL) {
-        // El elemento no se encuentra en el árbol
         return -1;
     }
 
     if (strcmp(valor, nodo->elemento) == 0) {
-        // Hemos encontrado el elemento
         return nivelActual;
     }
 
     int nivelIzquierdo = nivel(nodo->izquierda, valor, (nivelActual + 1));
     if (nivelIzquierdo != -1) {
-        // El elemento se encuentra en el subárbol izquierdo
         return nivelIzquierdo;
     } else {
-        // El elemento se encuentra en el subárbol derecho (o no está en el árbol)
         return nivel(nodo->derecha, valor, nivelActual + 1);
     }
 }
@@ -128,6 +129,7 @@ int ArbolBinario::nivel(char* valor) {
     return nivel(raiz, valor, 1);
 }
 
+// Funcion para obtener todos los nodos hoja del arbol.
 void ArbolBinario::nodosHoja(Nodo* nodo, std::vector<char*>& hojas) {
     if (nodo == NULL) {
         return;
@@ -151,6 +153,7 @@ int valorAbsoluto(int x) {
     return (x < 0) ? -x : x;
 }
 
+// Funcion para verificar si el arbol esta equilibrado.
 bool ArbolBinario::esEquilibrado(Nodo* nodo) {
     if (nodo == NULL) {
         return true;
@@ -173,7 +176,7 @@ bool ArbolBinario::esEquilibrado() {
     return esEquilibrado(raiz);
 }
 
-
+// Funcion para eliminar un nodo del arbol.
 void ArbolBinario::eliminar(Nodo*& nodo, char* valor) {
     if (nodo == NULL) {
         return;
@@ -209,25 +212,26 @@ void ArbolBinario::eliminar(Nodo*& nodo, char* valor) {
         }
     }
 }
+
+void ArbolBinario::eliminar(char* valor) {
+    eliminar(raiz, valor);
+}
+
+// Funcion para obtener el nodo con el valor maximo en el arbol.
 ArbolBinario::Nodo* ArbolBinario::maximoNodo(Nodo* nodo) { 
 	Nodo* actual = nodo;
-	// Encuentra el nodo más a la derecha
 	while (actual && actual->derecha != NULL)
 	    actual = actual->derecha;
 	
 	return actual;
 }
-void ArbolBinario::eliminar(char* valor) {
-    eliminar(raiz, valor);
-}
 
+// Funcion para vaciar el arbol.
 void ArbolBinario::vaciar(Nodo*& nodo) {
     if (nodo != NULL) {
-        // Vacía los subárboles izquierdo y derecho
         vaciar(nodo->izquierda);
         vaciar(nodo->derecha);
 
-        // Borra el nodo
         delete nodo;
         nodo = NULL;
     }
